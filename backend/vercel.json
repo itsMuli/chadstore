@@ -11,14 +11,6 @@
         "src": "/(.*)",
         "dest": "server.js"
       }
-    ],
-    "env": {
-      "NODE_ENV": "production",
-      "STRIPE_SECRET_KEY": "@stripe_secret_key",  
-      "MONGODB_URI": "@mongodb_uri"               
-    },
-    "includeFiles": [
-      "dist/**"                                    
     ]
   }
   
