@@ -8,11 +8,15 @@ import productRouter from './routes/productRoutes.js';
 import cartRouter from './routes/cartRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
-const corsOptions = {
-    origin: '*',
-};
+const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 4000;
+
+app.use(cors({
+    origin: 'https://chadfashion.vercel.app/', // Your frontend URL
+    methods: 'GET,POST,PUT,DELETE',
+  }));
+  
 
 connectDB();
 connectCloudinary();  
