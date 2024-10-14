@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 import { assets } from '../assets/assets'
 
 
+// eslint-disable-next-line react/prop-types
 const Orders = ({ token }) => {
 
   const [orders,setOrders] = useState([])
@@ -13,7 +14,7 @@ const Orders = ({ token }) => {
       return null;
     }
     try{
-      const response = await axios.post(backendUrl + '/api/order/list',{},{headers:{token}})
+      const response = await axios.post(`${backendUrl}/api/order/list`,{},{headers:{token}})
       if (response.data.success) {
         setOrders(response.data.orders)
       } else {
@@ -28,7 +29,7 @@ const Orders = ({ token }) => {
 
   const statusHandler = async ( event, orderId ) => {
     try {
-      const response = await axios.post(backendUrl + '/api/order/status', {orderId, status:event.target.value}, {headers: {token}})
+      const response = await axios.post(`${backendUrl}/api/order/status`, {orderId, status:event.target.value}, {headers: {token}})
       if (response.data.success) {
         await fetchAllOrders()
       }

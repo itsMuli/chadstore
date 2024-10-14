@@ -3,12 +3,13 @@ import { backendUrl, currency } from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// eslint-disable-next-line react/prop-types
 const List = ({ token }) => {
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
     try {
-      const response = await axios.get(backendUrl + "/api/product/list");
+      const response = await axios.get(`${backendUrl}/api/product/list`);
       console.log(response.data);
       if (response.data.success && Array.isArray(response.data.products)) {
         setList(response.data.products);
