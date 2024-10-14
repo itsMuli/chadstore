@@ -9,7 +9,7 @@ import cartRouter from './routes/cartRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
 const corsOptions = {
-    origin: 'https://chadstore.netlify.app',
+    origin: '*',
 };
 const app = express();
 const port = process.env.PORT || 4000;
