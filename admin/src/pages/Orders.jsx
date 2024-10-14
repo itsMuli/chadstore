@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 import { assets } from '../assets/assets'
 
 
-const Orders = ({token}) => {
+const Orders = ({ token }) => {
 
   const [orders,setOrders] = useState([])
   const fetchAllOrders = async () => {
@@ -34,7 +34,7 @@ const Orders = ({token}) => {
       }
     } catch (error) {
       console.log(error)
-      toast.error(response.data.message)
+      toast.error(error.message)
     }
   }
 
