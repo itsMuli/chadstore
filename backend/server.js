@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors({
-    origin: 'https://chadfashion.vercel.app/', // Your frontend URL
+    origin: '*',
     methods: 'GET,POST,PUT,DELETE',
   }));
   
@@ -22,7 +22,6 @@ connectDB();
 connectCloudinary();  
 
 app.use(express.json());
-app.use(cors(corsOptions));
 
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
