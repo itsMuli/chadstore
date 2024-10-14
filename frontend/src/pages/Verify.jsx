@@ -36,7 +36,7 @@ const Verify = () => {
     },[token])
 
   return (
-    <div>Verify</div>
+    <div>Payment complete</div>
   )
 }
 
