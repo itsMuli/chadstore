@@ -8,18 +8,17 @@ import productRouter from './routes/productRoutes.js';
 import cartRouter from './routes/cartRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
-const cors = require('cors')
 const app = express();
 const port = process.env.PORT || 4000;
 
+// Use CORS middleware
 app.use(cors({
     origin: '*',
     methods: 'GET,POST,PUT,DELETE',
-  }));
-  
+}));
 
 connectDB();
-connectCloudinary();  
+connectCloudinary();
 
 app.use(express.json());
 
@@ -28,8 +27,14 @@ app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
-app.get('/', (req, res) => {
-    res.send('API working');
+app.get('/', async (req, res) => {
+    try {
+        res.send('API working');
+    } catch (error) {
+        console.error('Error occurred:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
+
 
 app.listen(port, () => console.log('Server running on PORT : ' + port));
