@@ -9,13 +9,21 @@ export const ShopContext = createContext()
 const ShopContextProvider = ({ children }) => {
     const currency = '$';
     const delivery_fee = 10;
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, '')
     const [search,setSearch] = useState('');
     const [showSearch,setShowSearch] =useState(false);
     const [cartItems,setCartItems] = useState({});
     const [products,setProducts] = useState([]);
     const [token,setToken] = useState(null)
     const navigate = useNavigate()
+
+    const api = axios.create({
+        baseURL: backendUrl,
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
     const addToCart = async (itemId,size) => {
 
@@ -41,7 +49,7 @@ const ShopContextProvider = ({ children }) => {
 
         if (token) {
             try {
-                await axios.post(`${backendUrl}/api/cart/add`, {itemId,size}, {headers:{token}} )
+                await api.post(`/api/cart/add`, {itemId,size}, {headers:{token}} )
             } catch (error) {
                 console.log(error)
                 toast.error(error.message)
@@ -74,7 +82,7 @@ const ShopContextProvider = ({ children }) => {
 
         if (token) {
             try {
-                await axios.post(`${backendUrl}/api/cart/update`, {itemId,size,quantity}, {headers:{token}})
+                await api.post(`/api/cart/update`, {itemId,size,quantity}, {headers:{token}})
             } catch (error) {
                 console.log(error)
                 toast.error(error.message)
@@ -103,7 +111,7 @@ const ShopContextProvider = ({ children }) => {
       
       const getProductsData = async () => {
         try{
-            const response = await axios.get(`${backendUrl}/api/product/list`)
+            const response = await api.get(`/api/product/list`)
             if(response.data.success){
                 setProducts(response.data.products)
             } else {
@@ -117,7 +125,7 @@ const ShopContextProvider = ({ children }) => {
 
       const getUserCart = async ( token ) => {
         try {
-            const response = await axios.post(`${backendUrl}/api/cart/get`, {}, {headers:{token}})
+            const response = await api.post(`/api/cart/get`, {}, {headers:{token}})
             if (response.data.success) {
                 setCartItems(response.data.cartData)
             }
@@ -131,12 +139,13 @@ const ShopContextProvider = ({ children }) => {
         getProductsData()
       },[])
 
-      useEffect(()=> {
-        if (!token && localStorage.getItem('token')) {
-            setToken(localStorage.getItem('token'))
-            getUserCart(localStorage.getItem('token'))
+      useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (!token && storedToken) {
+            setToken(storedToken);
+            getUserCart(storedToken);
         }
-      })
+    }, [])
 
     const value ={
         products, currency, delivery_fee,
