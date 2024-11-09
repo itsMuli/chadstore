@@ -13,7 +13,7 @@ const port = process.env.PORT || 4000;
 
 // Use CORS middleware
 app.use(cors({
-    origin: '*',
+    origin: 'https://chadstore.netlify.app/',
     methods: 'GET,POST,PUT,DELETE',
 }));
 
